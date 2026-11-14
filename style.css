@@ -61,3 +61,6 @@ footer p{margin:.3rem 0}
 .card:not(.show) svg{transition-duration:.4s}
 .card:not(.show) h3::after{transition-duration:.4s}
 .card:not(.show) p{transition-duration:.3s}
+
+a.card:hover h3{color:var(--brown)}
+a.card h3{transition:color .25s}

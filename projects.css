@@ -1,0 +1,33 @@
+/* Projects & Certificates page. Builds on style.css and about.css */
+.ptitle{min-height:60vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2rem 1.25rem}
+.ptitle h1{font-style:italic;color:var(--brown);font-size:clamp(2.2rem,6.5vw,4.4rem);line-height:1.15;}
+.ptitle .roles{margin:1.4rem 0 2.2rem;animation:rise .9s .2s ease both}
+.sub{max-width:none;margin:3rem 0 1.2rem;font-size:1.25rem;position:relative;padding-bottom:.7rem;width:fit-content;max-width:100%}
+.sub::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--brown);transform:scaleX(0);transform-origin:left;transition:transform .9s ease .3s}
+.sub.show::after{transform:scaleX(1)}
+.sub:not(.show)::after{transition-delay:0s;transition-duration:.3s}
+.sub em{font-size:.9em}
+.gallery{display:flex;flex-wrap:wrap;gap:1.4rem;align-items:center;margin-bottom:1rem}
+.gallery figure{margin:0;overflow:hidden;border-radius:6px;box-shadow:0 6px 18px rgba(60,35,15,.18);background:#fff}
+.gallery img{display:block;width:100%;height:auto;transition:transform .6s ease}
+.gallery figure:hover img{transform:scale(1.05)}
+.wide{flex:1 1 300px;max-width:calc(50% - .7rem)}
+.poster{flex:0 1 210px}
+.mid{flex:1 1 230px;max-width:340px}
+.laptop{flex:0 1 520px;margin-inline:auto;box-shadow:none;background:none}
+.gallery figure.reveal{transform:translateY(28px) scale(.96)}
+.gallery figure.reveal.show{transform:none}
+.gallery figure:nth-child(2){transition-delay:.15s}
+.gallery figure:nth-child(3){transition-delay:.3s}
+.gallery figure:not(.show){transition-delay:0s}
+@media (max-width:700px){.wide{max-width:100%}.poster{flex-basis:100%;max-width:260px;margin-inline:auto}}
+
+/* Letter-by-letter animation for the Projects and Certificates headings */
+.split .w{display:inline-block;white-space:nowrap}
+.split .ch{display:inline-block;opacity:0;transform:translateY(.7em) rotate(8deg);transition:opacity .5s ease,transform .7s cubic-bezier(.34,1.56,.64,1),color .25s;transition-delay:calc(var(--i)*.05s)}
+.split.show .ch{opacity:1;transform:none}
+.split:not(.show) .ch{transition-delay:0s;transition-duration:.25s}
+.split.show .ch:hover{transform:translateY(-.15em) scale(1.18);color:var(--ink);transition-delay:0s;transition-duration:.25s}
+.wave.show .ch{animation:letterwave 3.6s ease-in-out calc(1.4s + var(--i)*.07s) infinite}
+@keyframes letterwave{0%,35%,100%{translate:0 0;color:inherit}15%{translate:0 -.13em;color:#c9954a}}
+@media (prefers-reduced-motion:reduce){.split .ch{opacity:1;transform:none}}
