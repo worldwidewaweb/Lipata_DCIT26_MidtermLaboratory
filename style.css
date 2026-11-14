@@ -13,7 +13,7 @@ a{color:var(--brown)}
 h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0}
 h1{font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.15;animation:rise .9s ease both}
 .roles{max-width:46ch;font-size:clamp(1.05rem,2.4vw,1.5rem);margin:1.8rem 0 3rem;animation:rise .9s .2s ease both}
-.cta{font-family:var(--serif);font-style:italic;text-decoration:none;color:var(--brown);border-bottom:1px solid var(--gold);padding-bottom:2px;animation:rise .9s .4s ease both}
+.cta{font-family:var(--serif);font-style:italic;text-decoration:none;color:var(--brown);position:relative;display:inline-block;padding-bottom:10px;animation:rise .9s .4s ease both}
 .cta:hover{color:var(--ink)}
 @keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
 .explore{padding:4rem 1.25rem 5rem;text-align:center;max-width:1100px;margin:0 auto}
@@ -21,10 +21,43 @@ h1{font-size:clamp(2.4rem,7vw,4.8rem);line-height:1.15;animation:rise .9s ease b
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2.5rem;margin-top:3.5rem}
 .card{display:flex;flex-direction:column;align-items:center;text-decoration:none;color:var(--ink);transition:transform .25s}
 .card svg{width:100px;height:100px}
-.card h3{font-size:1.6rem;margin:1.6rem 0 .8rem;padding-bottom:.6rem;border-bottom:1px solid var(--gold);width:100%}
+.card h3{position:relative;font-size:1.6rem;margin:1.6rem 0 .8rem;padding-bottom:.6rem;width:100%}
 .card p{margin:0;font-size:.95rem}
 footer{text-align:center;padding:2.5rem 1rem;border-top:1px solid var(--gold);font-size:.95rem}
 footer p{margin:.3rem 0}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
 .reveal.show{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}.reveal{opacity:1;transform:none}}
+
+/* Hand-drawn circle around the name and squiggle under the link */
+.circled{position:relative;display:inline-block}
+.circled svg{position:absolute;left:-7%;top:-14%;width:114%;height:128%;overflow:visible;pointer-events:none}
+.circled path,.cta path{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 1.4s ease forwards}
+.circled path{stroke:var(--ink);stroke-width:3;animation:drawloop 3s ease-in-out .8s infinite}
+.cta svg{position:absolute;left:0;bottom:0;width:100%;height:10px;overflow:hidden}
+.cta path{stroke:var(--gold);stroke-width:2;stroke-dasharray:none;stroke-dashoffset:0;animation:wave 1.4s linear infinite}
+@keyframes wave{to{transform:translateX(-25px)}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes drawloop{0%{stroke-dashoffset:1}25%,70%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
+@media (prefers-reduced-motion:reduce){.circled path,.cta path{stroke-dashoffset:0}}
+
+/* Cards: staggered entrance, icon pop + float, growing underline */
+.card:nth-child(2){transition-delay:.15s}
+.card:nth-child(3){transition-delay:.3s}
+.card svg{transform:scale(.5) rotate(-25deg);transition:transform .7s cubic-bezier(.34,1.56,.64,1) .2s}
+.card.show svg{transform:none;animation:float 4s ease-in-out 1s infinite}
+.card:nth-child(2).show svg{animation-delay:1.6s}
+.card:nth-child(3).show svg{animation-delay:2.2s}
+.card.show svg:hover{transform:scale(1.1) rotate(8deg);transition:transform .3s}
+@keyframes float{50%{translate:0 -10px}}
+.card h3::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;background:var(--gold);transform:scaleX(0);transition:transform .9s ease .5s}
+.card.show h3::after{transform:scaleX(1)}
+.card p{opacity:0;transition:opacity .8s ease .9s}
+.card.show p{opacity:1}
+@media (prefers-reduced-motion:reduce){.card svg{transform:none}.card h3::after{transform:scaleX(1)}.card p{opacity:1}}
+
+/* Retract quickly (no stagger) when scrolling back up */
+.card:not(.show),.card:not(.show) svg,.card:not(.show) h3::after,.card:not(.show) p{transition-delay:0s}
+.card:not(.show) svg{transition-duration:.4s}
+.card:not(.show) h3::after{transition-duration:.4s}
+.card:not(.show) p{transition-duration:.3s}
